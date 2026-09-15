@@ -5,6 +5,8 @@ from database import get_db
 from models import User
 from schemas import UserCreate, UserResponse
 from auth import hash_password, verify_password, create_access_token, create_refresh_token
+from main import limiter
+from fastapi import Request
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -27,7 +29,8 @@ def register(user_data: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 @router.post("/login")
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+@limiter.limit("5/minute")
+def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
