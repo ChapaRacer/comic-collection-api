@@ -11,7 +11,6 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     role = Column(String, default="user", nullable=False)
-
     comics = relationship("ComicVolume", back_populates="owner", cascade="all, delete-orphan")
 
 class ComicVolume(Base):
@@ -21,7 +20,5 @@ class ComicVolume(Base):
     title = Column(String, index=True, nullable=False)
     publisher = Column(String, nullable=False)
     volume_number = Column(Integer, nullable=False)
-
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-
     owner = relationship("User", back_populates="comics")

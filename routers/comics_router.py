@@ -6,7 +6,7 @@ from models import ComicVolume, User
 from schemas import ComicCreate, ComicResponse
 from dependencies import get_current_user, require_admin
 
-router = APIRouter(prefis="/comics", tags=["Comics Collection"])
+router = APIRouter(prefix="/comics", tags=["Comics Collection"])
 
 @router.post("/", response_model=ComicResponse, status_code=status.HTTP_201_CREATED)
 def create_comic(comic_in: ComicCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
