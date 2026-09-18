@@ -5,7 +5,7 @@ from database import get_db
 from models import User
 from schemas import UserCreate, UserResponse
 from auth import hash_password, verify_password, create_access_token, create_refresh_token
-from main import limiter
+from rate_limiter import limiter
 from fastapi import Request
 
 router = APIRouter(prefix="/auth", tags=["Auth"])

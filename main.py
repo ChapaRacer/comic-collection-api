@@ -6,9 +6,9 @@ from slowapi.errors import RateLimitExceeded
 import models
 from database import engine
 from routers import auth_router, comics_router
+from rate_limiter import limiter
 
 models.Base.metadata.create_all(bind=engine)
-limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
 app = FastAPI(title="Comic Collection Secure API")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
