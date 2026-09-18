@@ -14,14 +14,14 @@ class User(Base):
 
     comics = relationship("ComicVolume", back_populates="owner", cascade="all, delete-orphan")
 
-    class ComicVolume(Base):
-        __tablename__ = "comic_volumes"
+class ComicVolume(Base):
+    __tablename__ = "comic_volumes"
 
-        id = Column(Integer, primary_key=True, index=True)
-        title = Column(String, index=True, nullable=False)
-        publisher = Column(String, nullable=False)
-        volume_number = Column(Integer, nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True, nullable=False)
+    publisher = Column(String, nullable=False)
+    volume_number = Column(Integer, nullable=False)
 
-        user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
 
-        owner = relationship("User", back_populates="comics")
+    owner = relationship("User", back_populates="comics")
